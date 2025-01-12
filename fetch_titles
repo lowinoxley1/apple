@@ -1,0 +1,10 @@
+import requests
+from bs4 import BeautifulSoup
+
+def fetch_titles(url):
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    return [tag.text for tag in soup.find_all('h2')]
+
+titles = fetch_titles("https://example.com")
+print(titles)
