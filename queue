@@ -1,0 +1,13 @@
+from collections import deque
+
+queue = deque()
+
+# 入队
+queue.append(1)
+queue.append(2)
+
+# 出队
+print(queue.popleft())
+
+# 查看队列
+print(queue)
