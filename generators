@@ -1,0 +1,4 @@
+from pydub.generators import Sine
+
+sine_wave = Sine(440).to_audio_segment(duration=1000)  # 440 Hz for 1 second
+sine_wave.export('tone.wav', format='wav')
