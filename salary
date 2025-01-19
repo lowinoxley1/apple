@@ -1,0 +1,7 @@
+import matplotlib.pyplot as plt
+
+data['salary'].hist(bins=10)  # 绘制工资分布的直方图
+plt.xlabel('Salary')
+plt.ylabel('Frequency')
+plt.title('Salary Distribution')
+plt.show()
