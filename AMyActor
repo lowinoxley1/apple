@@ -1,0 +1,10 @@
+void AMyActor::BeginPlay()
+{
+    Super::BeginPlay();
+    GetWorldTimerManager().SetTimer(TimerHandle, this, &AMyActor::MyTimerFunction, 2.f, true);
+}
+
+void AMyActor::MyTimerFunction()
+{
+    UE_LOG(LogTemp, Warning, TEXT("Timer triggered!"));
+}
