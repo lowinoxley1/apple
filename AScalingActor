@@ -1,0 +1,17 @@
+void AScalingActor::BeginPlay()
+{
+    Super::BeginPlay();
+    if (Curve)
+    {
+        FOnTimelineFloat ScaleUpdate;
+        ScaleUpdate.BindUFunction(this, FName("UpdateScale"));
+        Timeline.AddInterpFloat(Curve, ScaleUpdate);
+        Timeline.SetLooping(false);
+        Timeline.PlayFromStart();
+    }
+}
+
+void AScalingActor::UpdateScale(float Value)
+{
+    SetActorScale3D(FVector(Value));
+}
