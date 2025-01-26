@@ -1,0 +1,8 @@
+void AMyAIController::MoveToRandomLocation()
+{
+	FNavLocation RandomPoint;
+	if (UNavigationSystemV1::GetRandomPointInNavigableRadius(GetWorld(), GetPawn()->GetActorLocation(), 1000.f, RandomPoint))
+	{
+		MoveToLocation(RandomPoint.Location);
+	}
+}
