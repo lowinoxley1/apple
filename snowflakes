@@ -1,0 +1,6 @@
+const snowflakes = () => {
+  console.clear();
+  console.log("❄️ ".repeat(Math.floor(Math.random() * 50)));
+};
+
+setInterval(snowflakes, 300);
