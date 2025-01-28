@@ -1,0 +1,13 @@
+import requests
+
+def get_weather(city):
+    api_key = "your_openweathermap_api_key"
+    url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
+    response = requests.get(url).json()
+    if response.get("main"):
+        return f"{city} 的温度是 {response['main']['temp']}°C"
+    else:
+        return "无法获取天气信息"
+
+# 使用示例
+print(get_weather("Beijing"))
