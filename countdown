@@ -1,0 +1,33 @@
+import pygame
+import time
+
+pygame.init()
+screen = pygame.display.set_mode((800, 600))
+pygame.display.set_caption("倒计时计时器")
+
+font = pygame.font.Font(None, 74)  # 字体设置
+
+countdown = 10  # 倒计时从 10 开始
+start_ticks = pygame.time.get_ticks()  # 获取初始时间
+
+running = True
+while running:
+    screen.fill((0, 0, 0))
+
+    # 计算剩余时间
+    seconds = countdown - (pygame.time.get_ticks() - start_ticks) // 1000
+
+    if seconds > 0:
+        timer_text = font.render(f"Time: {seconds}", True, (255, 255, 255))
+        screen.blit(timer_text, (350, 250))
+    else:
+        timer_text = font.render("Time's Up!", True, (255, 0, 0))
+        screen.blit(timer_text, (300, 250))
+
+    pygame.display.update()
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+pygame.quit()
