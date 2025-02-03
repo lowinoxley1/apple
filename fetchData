@@ -1,0 +1,13 @@
+import Foundation
+
+func fetchData(completion: @escaping (String) -> Void) {
+    DispatchQueue.global().async {
+        // 模拟网络请求
+        sleep(2)
+        completion("Data fetched successfully")
+    }
+}
+
+fetchData { result in
+    print(result)
+}
