@@ -1,0 +1,5 @@
+player_color = (0, 128, 255)
+player_pos = [400, 300]
+player_size = 50
+
+pygame.draw.rect(screen, player_color, (*player_pos, player_size, player_size))
