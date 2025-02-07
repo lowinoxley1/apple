@@ -1,0 +1,48 @@
+class Graph:
+    def __init__(self):
+        self.adj_list = {}
+    
+    def add_vertex(self, vertex):
+        if vertex not in self.adj_list:
+            self.adj_list[vertex] = []
+    
+    def add_edge(self, vertex1, vertex2):
+        self.add_vertex(vertex1)
+        self.add_vertex(vertex2)
+        self.adj_list[vertex1].append(vertex2)
+        # 如果是无向图，请取消下面这一行的注释：
+        # self.adj_list[vertex2].append(vertex1)
+    
+    def bfs(self, start):
+        visited = set()
+        queue = [start]
+        result = []
+        while queue:
+            vertex = queue.pop(0)
+            if vertex not in visited:
+                visited.add(vertex)
+                result.append(vertex)
+                queue.extend([n for n in self.adj_list[vertex] if n not in visited])
+        return result
+    
+    def dfs(self, start):
+        visited = set()
+        result = []
+        self._dfs_recursive(start, visited, result)
+        return result
+    
+    def _dfs_recursive(self, vertex, visited, result):
+        if vertex not in visited:
+            visited.add(vertex)
+            result.append(vertex)
+            for neighbor in self.adj_list.get(vertex, []):
+                self._dfs_recursive(neighbor, visited, result)
+
+# 测试示例
+if __name__ == "__main__":
+    g = Graph()
+    edges = [("A", "B"), ("A", "C"), ("B", "D"), ("C", "D"), ("C", "E")]
+    for v1, v2 in edges:
+        g.add_edge(v1, v2)
+    print("BFS遍历:", g.bfs("A"))  # 例如输出：BFS遍历: ['A', 'B', 'C', 'D', 'E']
+    print("DFS遍历:", g.dfs("A"))  # 例如输出：DFS遍历: ['A', 'B', 'D', 'C', 'E']
