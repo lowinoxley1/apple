@@ -1,0 +1,22 @@
+require 'csv'
+
+# 假设 CSV 文件 data.csv 内容如下:
+# name,age,city
+# Alice,30,New York
+# Bob,25,Los Angeles
+# Charlie,35,Chicago
+
+def process_csv(file_path)
+  total_age = 0
+  count = 0
+  CSV.foreach(file_path, headers: true) do |row|
+    total_age += row['age'].to_i
+    count += 1
+  end
+  
+  average_age = count > 0 ? (total_age.to_f / count) : 0
+  puts "平均年龄: #{average_age.round(2)}"
+end
+
+# 请确保 data.csv 文件存在于当前目录下
+process_csv('data.csv')
