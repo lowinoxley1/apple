@@ -1,0 +1,38 @@
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+
+class Program
+{
+    static async Task FetchDataAsync(string url)
+    {
+        using HttpClient client = new HttpClient();
+        try
+        {
+            HttpResponseMessage response = await client.GetAsync(url);
+            response.EnsureSuccessStatusCode();
+            string data = await response.Content.ReadAsStringAsync();
+            Console.WriteLine($"Data from {url}:\n{data.Substring(0, Math.Min(100, data.Length))}...");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error fetching {url}: {ex.Message}");
+        }
+    }
+
+    static async Task Main(string[] args)
+    {
+        string[] urls = {
+            "https://www.example.com",
+            "https://www.google.com",
+            "https://www.microsoft.com"
+        };
+
+        Task[] tasks = new Task[urls.Length];
+        for (int i = 0; i < urls.Length; i++)
+        {
+            tasks[i] = FetchDataAsync(urls[i]);
+        }
+        await Task.WhenAll(tasks);
+    }
+}
