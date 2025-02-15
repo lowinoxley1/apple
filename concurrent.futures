@@ -1,0 +1,22 @@
+# 示例 2: 多线程网页爬虫
+import requests
+from concurrent.futures import ThreadPoolExecutor
+
+urls = [
+    'https://www.example.com',
+    'https://www.python.org',
+    'https://www.github.com',
+]
+
+def fetch(url):
+    try:
+        response = requests.get(url, timeout=5)
+        return url, response.status_code
+    except Exception as e:
+        return url, str(e)
+
+if __name__ == '__main__':
+    with ThreadPoolExecutor(max_workers=5) as executor:
+        results = list(executor.map(fetch, urls))
+    for url, status in results:
+        print(f"{url} -> {status}")
