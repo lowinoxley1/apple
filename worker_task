@@ -1,0 +1,40 @@
+import threading
+import queue
+import time
+
+class TaskManager:
+    def __init__(self, num_workers=5):
+        self.task_queue = queue.Queue()
+        self.workers = []
+        for _ in range(num_workers):
+            worker = threading.Thread(target=self.worker_task)
+            worker.daemon = True
+            self.workers.append(worker)
+            worker.start()
+
+    def worker_task(self):
+        while True:
+            task, args = self.task_queue.get()
+            if task is None:
+                break
+            try:
+                task(*args)
+            except Exception as e:
+                print(f"Error executing task: {e}")
+            self.task_queue.task_done()
+
+    def add_task(self, task, *args):
+        self.task_queue.put((task, args))
+
+    def wait_completion(self):
+        self.task_queue.join()
+
+def example_task(n):
+    time.sleep(n)
+    print(f"Task with {n} sec completed")
+
+if __name__ == "__main__":
+    manager = TaskManager(3)
+    for i in range(5):
+        manager.add_task(example_task, i)
+    manager.wait_completion()
