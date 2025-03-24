@@ -1,0 +1,40 @@
+import threading
+import requests
+from queue import Queue
+
+class MultiThreadedScraper:
+    def __init__(self, urls, num_threads=5):
+        self.urls = urls
+        self.num_threads = num_threads
+        self.queue = Queue()
+        self.results = []
+
+    def fetch_url(self):
+        while not self.queue.empty():
+            url = self.queue.get()
+            try:
+                response = requests.get(url, timeout=5)
+                self.results.append((url, response.status_code, response.text[:100]))
+            except requests.RequestException as e:
+                self.results.append((url, None, str(e)))
+            self.queue.task_done()
+
+    def run(self):
+        for url in self.urls:
+            self.queue.put(url)
+
+        threads = []
+        for _ in range(self.num_threads):
+            thread = threading.Thread(target=self.fetch_url)
+            thread.start()
+            threads.append(thread)
+
+        for thread in threads:
+            thread.join()
+
+        return self.results
+
+# 示例调用
+urls = ["https://www.example.com", "https://www.python.org", "https://www.github.com"]
+scraper = MultiThreadedScraper(urls)
+print(scraper.run())
