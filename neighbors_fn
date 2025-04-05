@@ -1,0 +1,22 @@
+import heapq
+
+def astar(start, goal, neighbors_fn, heuristic_fn):
+    open_set = []
+    heapq.heappush(open_set, (0 + heuristic_fn(start, goal), 0, start, []))
+    visited = set()
+
+    while open_set:
+        est_total, cost, current, path = heapq.heappop(open_set)
+        if current in visited:
+            continue
+        visited.add(current)
+        path = path + [current]
+
+        if current == goal:
+            return path
+
+        for neighbor, move_cost in neighbors_fn(current):
+            if neighbor not in visited:
+                heapq.heappush(open_set, (cost + move_cost + heuristic_fn(neighbor, goal), cost + move_cost, neighbor, path))
+
+    return None
