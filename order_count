@@ -1,0 +1,6 @@
+SELECT u.name, COUNT(o.id) as order_count, SUM(o.total) as total_spent
+FROM users u
+JOIN orders o ON u.id = o.user_id
+GROUP BY u.name
+HAVING total_spent > 1000
+ORDER BY total_spent DESC;
